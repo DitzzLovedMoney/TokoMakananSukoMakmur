@@ -1,35 +1,41 @@
 // ====== DATA PRODUK KELOMPOK ====== 
 const categories = { 
   "Nasi Goreng": [ 
-  { id: 1, name: "Nasi Goreng Sayur", description: "Dengan sayur segar.", price: 17000 },
-  { id: 2, name: "Nasi Goreng Telur", description: "Dengan telur orak-arik.", price: 18000 }, 
-  { id: 3, name: "Nasi Goreng Ayam", description: "Dengan ayam suwir.", price: 19000 }, 
-  { id: 4, name: "Nasi Goreng Seafood", description: "Dengan seafood lengkap.", price: 22000 }, 
+  { id: 1, name: "Nasi Goreng Sayur", price: 13000 },
+  { id: 2, name: "Nasi Goreng Telur", price: 15000 }, 
+  { id: 3, name: "Nasi Goreng Ayam", price: 16500 }, 
+  { id: 4, name: "Nasi Goreng Seafood", description: "Dengan seafood lengkap.", price: 20000 }, 
   ], 
   "Mie Ayam": [ 
-  { id: 5, name: "Mie Ayam Biasa", description: "Dengan ayam dan sayur.", price: 17000 }, 
-  { id: 6, name: "Mie Ayam Ceker", description: "Tambahan ceker ayam.", price: 19000 }, 
-  { id: 7, name: "Mie Ayam Bakso", description: "Dengan bakso kenyal.", price: 20000 }, 
-  { id: 8, name: "Mie Ayam Bakso Jumbo", description: "Bakso jumbo + ayam.", price: 23000 }, 
+  { id: 5, name: "Mie Ayam", price: 10000 }, 
+  { id: 6, name: "Mie Ayam Ceker", price: 12000 }, 
+  { id: 7, name: "Mie Ayam Bakso", price: 13000 }, 
+  { id: 8, name: "Mie Ayam Bakso Jumbo", price: 15000 }, 
   ], 
   "Bakso": [ 
-  { id: 9, name: "Bakso Biasa", description: "Isi 5 + mie + kuah.", price: 17000 }, 
-  { id: 10, name: "Bakso Jumbo", description: "Bakso besar isi daging.", price: 21000 }, 
-  { id: 11, name: "Bakso Urat", description: "Dengan urat daging sapi.", price: 20000 }, 
-  { id: 12, name: "Bakso Telur", description: "Isi telur puyuh.", price: 19000 }, 
+  { id: 9, name: "Bakso Biasa", price: 11000 }, 
+  { id: 10, name: "Bakso Jumbo", price: 13000 }, 
+  { id: 11, name: "Bakso Urat", price: 18000 }, 
+  { id: 12, name: "Bakso Telur", price: 16000 }, 
   ], 
   "Kwetiau & Bihun": [ 
-  { id: 13, name: "Kwetiau Goreng", description: "Kwetiau goreng lezat.", price: 19000 }, 
-  { id: 14, name: "Kwetiau Kuah", description: "Dengan kuah kaldu.", price: 19000 }, 
-  { id: 15, name: "Bihun Goreng", description: "Manis gurih pedas.", price: 18000 }, 
-  { id: 16, name: "Bihun Kuah", description: "Hangat dan gurih.", price: 18000 }, 
+  { id: 13, name: "Kwetiau Goreng", price: 19000 }, 
+  { id: 14, name: "Kwetiau Kuah", price: 19000 }, 
+  { id: 15, name: "Bihun Goreng", price: 18000 }, 
+  { id: 16, name: "Bihun Kuah", price: 18000 }, 
   ], 
-  "Menu Ayam": [ 
-  { id: 17, name: "Ayam Geprek", description: "Pilih level pedas 1–5", price: 22000, isGeprek: true }, 
-  { id: 18, name: "Ayam Goreng Biasa", description: "Ayam goreng bumbu tradisional.", price: 18000 }, 
-  { id: 19, name: "Ayam Krispi", description: "Ayam goreng tepung renyah.", price: 19000 }, 
-  { id: 20, name: "Ayam Goreng Kremes", description: "Ayam goreng + kremesan.", price: 19000 }, 
-  ] 
+  "Ayam": [ 
+  { id: 17, name: "Ayam Geprek", price: 16500, isGeprek: true }, 
+  { id: 18, name: "Ayam Goreng", price: 10000 }, 
+  { id: 19, name: "Ayam Krispi", price: 13000 }, 
+  { id: 20, name: "Ayam Goreng Kremes", price: 15000 }, 
+  ],
+  "Minuman": [
+  { id: 23, name: "Teh Panas", price: 3500 },
+  { id: 24, name: "Teh Dingin", price: 3500 },
+  { id: 25, name: "Jeruk Panas", price: 3500 },
+  { id: 26, name: "Jeruk Dingin", price: 3500 }
+]
 };
 
 // ====== TAMPILKAN PRODUK PER KATEGORI ======
@@ -50,7 +56,6 @@ for (const [category, items] of Object.entries(categories)) {
     if (item.isGeprek) {
       card.innerHTML = `
         <h3>${item.name}</h3>
-        <p>${item.description}</p>
         <label for="level-${item.id}">Level Pedas:</label>
         <select id="level-${item.id}">
           <option value="1">Level 1</option>
@@ -65,7 +70,6 @@ for (const [category, items] of Object.entries(categories)) {
     } else {
       card.innerHTML = `
         <h3>${item.name}</h3>
-        <p>${item.description}</p>
         <p class="price">Rp ${item.price.toLocaleString()}</p>
         <button class="btn" onclick="addToCart(${item.id})">Tambah ke Keranjang</button>
       `;
@@ -153,3 +157,8 @@ function decreaseQuantity(id, name) {
     updateCart();
   }
 }
+
+document.getElementById("clear-cart").addEventListener("click", () => {
+  cart.length = 0; // Kosongkan array keranjang
+  updateCart();    // Perbarui tampilan
+})
