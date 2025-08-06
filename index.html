@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warung Online Kita</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🍽️ Warung Suko Makmur</h1>
+    <div class="grid" id="product-list"></div>
+
+    <div class="cart">
+      <h2>🛒 Keranjang Belanja</h2>
+      <ul id="cart-items"></ul>
+      <p id="total-price">Total: Rp 0</p>
+
+      <label for="payment">Metode Pembayaran:</label>
+      <select id="payment">
+        <option value="cod">Cash on Delivery</option>
+        <option value="ewallet">E-Wallet (OVO, GoPay, dll)</option>
+      </select>
+
+      <button class="btn" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
