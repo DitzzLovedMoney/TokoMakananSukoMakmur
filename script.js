@@ -4,13 +4,13 @@ const categories = {
   { id: 1, name: "Nasi Goreng Sayur", price: 13000 },
   { id: 2, name: "Nasi Goreng Telur", price: 15000 }, 
   { id: 3, name: "Nasi Goreng Ayam", price: 16500 }, 
-  { id: 4, name: "Nasi Goreng Seafood", description: "Dengan seafood lengkap.", price: 20000 }, 
+  { id: 4, name: "Nasi Goreng Seafood", price: 20000 }, 
   ], 
   "Mie Ayam": [ 
-  { id: 5, name: "Mie Ayam", price: 10000 }, 
-  { id: 6, name: "Mie Ayam Ceker", price: 12000 }, 
-  { id: 7, name: "Mie Ayam Bakso", price: 13000 }, 
-  { id: 8, name: "Mie Ayam Bakso Jumbo", price: 15000 }, 
+  { id: 5, name: "Mie Ayam", price: 10000, image: "src/mie-ayam.jpeg" }, 
+  { id: 6, name: "Mie Ayam Ceker", price: 12000, image: "src/mie-ayam-ceker.jpeg" }, 
+  { id: 7, name: "Mie Ayam Bakso", price: 13000, image: "src/mie-ayam-bakso.jpeg" }, 
+  { id: 8, name: "Mie Ayam Bakso Jumbo", price: 15000, image: "src/mie-ayam-bakso-jumbo.jpeg" }, 
   ], 
   "Bakso": [ 
   { id: 9, name: "Bakso Biasa", price: 11000 }, 
@@ -54,26 +54,28 @@ for (const [category, items] of Object.entries(categories)) {
     card.className = "card";
 
     if (item.isGeprek) {
-      card.innerHTML = `
-        <h3>${item.name}</h3>
-        <label for="level-${item.id}">Level Pedas:</label>
-        <select id="level-${item.id}">
-          <option value="1">Level 1</option>
-          <option value="2">Level 2</option>
-          <option value="3">Level 3</option>
-          <option value="4">Level 4</option>
-          <option value="5">Level 5</option>
-        </select>
-        <p class="price">Rp ${item.price.toLocaleString()}</p>
-        <button class="btn" onclick="addGeprekToCart(${item.id})">Tambah ke Keranjang</button>
-      `;
-    } else {
-      card.innerHTML = `
-        <h3>${item.name}</h3>
-        <p class="price">Rp ${item.price.toLocaleString()}</p>
-        <button class="btn" onclick="addToCart(${item.id})">Tambah ke Keranjang</button>
-      `;
-    }
+  card.innerHTML = `
+    <img src="${item.image}" alt="${item.name}" class="product-image">
+    <h3>${item.name}</h3>
+    <label for="level-${item.id}">Level Pedas:</label>
+    <select id="level-${item.id}">
+      <option value="1">Level 1</option>
+      <option value="2">Level 2</option>
+      <option value="3">Level 3</option>
+      <option value="4">Level 4</option>
+      <option value="5">Level 5</option>
+    </select>
+    <p class="price">Rp ${item.price.toLocaleString()}</p>
+    <button class="btn" onclick="addGeprekToCart(${item.id})">Tambah ke Keranjang</button>
+  `;
+} else {
+  card.innerHTML = `
+    <img src="${item.image}" alt="${item.name}" class="product-image">
+    <h3>${item.name}</h3>
+    <p class="price">Rp ${item.price.toLocaleString()}</p>
+    <button class="btn" onclick="addToCart(${item.id})">Tambah ke Keranjang</button>
+  `;
+}
 
     grid.appendChild(card);
   });
