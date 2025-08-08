@@ -2,7 +2,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f8f8;
+  background-color: #da6c6c;
 }
 .container {
   max-width: 1000px;
@@ -22,10 +22,26 @@ h1 {
   margin-top: 20px;
 }
 .card {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #000000;
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+  background-color: #77ffc6;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.product-image {
+  border: 1px solid #000000;
+  width: 80%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;       /* sudut gambar juga dibulatkan */
+  margin-bottom: 10px;
 }
 .card h2 {
   margin: 0 0 8px;
