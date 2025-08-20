@@ -14,17 +14,80 @@
     TokoMakananSukoMakmur
     </h1>
     <div class="grid" id="product-list"></div>
-    <div class="cart">
+      <button id="toggle-cart" class="cart-toggle">🛒 Lihat Keranjang</button>
+      <div class="cart hidden" id="cart-panel">
       <h2 style="text-align: center;">🛒 Keranjang Belanja</h2>
       <ul id="cart-items"></ul>
+      <div class="promo-box">
+        <label for="promo-code">Kode Promo:</label>
+        <div class="promo-input">
+          <input type="text" id="promo-code" placeholder="Masukkan kode promo">
+          <button type="button" onclick="applyPromo()">Pakai</button>
+        </div>
+        <p id="promo-message" style="color:green;font-size:0.9rem;"></p>
+      </div>
       <p id="total-price">Total: Rp 0</p>
       <label for="payment">Metode Pembayaran:</label>
       <select id="payment">
-        <option value="cod">Cash on Delivery</option>
-        <option value="ewallet">E-Wallet (OVO, GoPay, dll)</option>
+      <option value="cod">Cash on Delivery</option>
+      <option value="ewallet">E-Wallet (OVO, GoPay, dll)</option>
       </select>
       <button id="clear-cart" class="btn">🗑️ Bersihkan Keranjang</button>
       <button class="btn" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+  <div id="confirm-overlay" class="modal hidden">
+    <div class="modal-card">
+      <button class="modal-close" id="confirm-close" aria-label="Tutup">×</button>
+
+      <div class="confirm-header">
+        <div class="confirm-icon">🛒</div>
+        <h2>Ringkasan Pembelian</h2>
+        <p>Pastikan data pemesanan telah sesuai, lalu lanjutkan transaksi.</p>
+      </div>
+
+      <div class="confirm-section">
+        <h3>Data User</h3>
+        <div class="kv"><span>Metode Pembayaran</span><span id="cf-payment"></span></div>
+      </div>
+
+      <div class="confirm-section">
+        <h3>Pembelian</h3>
+        <ul id="cf-items" class="cf-list"></ul>
+      </div>
+
+      <div class="confirm-section">
+        <h3>Total Pesanan</h3>
+        <div class="kv"><span>Harga Produk</span><span id="cf-subtotal"></span></div>
+        <div class="kv"><span>Diskon</span><span id="cf-discount">Rp 0</span></div>
+        <div class="kv total"><span>Total yang harus Dibayar</span><span id="cf-total"></span></div>
+      </div>
+
+      <button id="confirm-order" class="btn">Lanjutkan Pembayaran</button>
+    </div>
+    </div>
+    <div class="modal-card">
+      <button class="modal-close" id="payment-close">×</button>
+      <h2 style="text-align:center;margin-bottom:15px;">Pilih Metode Pembayaran</h2>
+
+      <div class="payment-list">
+        <div class="payment-item" onclick="selectPayment('QRIS')">
+          <img src="src/qris.png" alt="QRIS">
+          <span>QRIS</span>
+        </div>
+        <div class="payment-item" onclick="selectPayment('OVO')">
+          <img src="src/ovo.png" alt="OVO">
+          <span>OVO</span>
+        </div>
+        <div class="payment-item" onclick="selectPayment('ShopeePay')">
+          <img src="src/shopeepay.png" alt="ShopeePay">
+          <span>ShopeePay</span>
+        </div>
+        <div class="payment-item" onclick="selectPayment('GoPay')">
+          <img src="src/gopay.png" alt="GoPay">
+          <span>GoPay</span>
+        </div>
+      </div>
     </div>
   </div>
   <script src="script.js"></script>

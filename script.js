@@ -123,22 +123,50 @@ function addGeprekToCart(id) {
 
 function updateCart() {
   cartItems.innerHTML = "";
-  let total = 0;
+  let subtotal = 0;
 
-cart.forEach(item => {
+  cart.forEach(item => {
     const itemTotal = item.price * item.quantity;
-    total += itemTotal;
+    subtotal += itemTotal;
 
     const li = document.createElement("li");
     li.innerHTML = `
-      ${item.name} x${item.quantity} - Rp ${itemTotal.toLocaleString()}
-      <button onclick="decreaseQuantity(${item.id}, '${item.name}')">➖</button>
-      <button onclick="increaseQuantity(${item.id}, '${item.name}')">➕</button>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span>${item.name}</span>
+        <span>Rp ${itemTotal.toLocaleString()}</span>
+      </div>
+      <div style="margin-top: 4px; display: flex; align-items: center; gap: 5px;">
+        <button onclick="decreaseQuantity(${item.id}, '${item.name}')">➖</button>
+        <input type="number" min="1" value="${item.quantity}" 
+          onchange="updateQuantity(${item.id}, '${item.name}', this.value)">
+        <button onclick="increaseQuantity(${item.id}, '${item.name}')">➕</button>
+      </div>
     `;
     cartItems.appendChild(li);
   });
 
-  totalPriceElement.textContent = `Total: Rp ${total.toLocaleString()}`;
+  // Hitung diskon
+  let discountAmount = 0;
+  if (appliedPromo.discount > 0) {
+    discountAmount = Math.floor(subtotal * appliedPromo.discount);
+  }
+
+  totalPriceElement.textContent = `Total: Rp ${(subtotal - discountAmount).toLocaleString()}`;
+}
+
+function updateQuantity(id, name, value) {
+  const item = cart.find(p => p.id === id && p.name === name);
+  if (item) {
+    const qty = parseInt(value);
+    if (qty > 0) {
+      item.quantity = qty;
+    } else {
+      // kalau 0, hapus item
+      const index = cart.findIndex(p => p.id === id && p.name === name);
+      cart.splice(index, 1);
+    }
+    updateCart();
+  }
 }
 
 function increaseQuantity(id, name) {
@@ -161,6 +189,107 @@ function decreaseQuantity(id, name) {
 }
 
 document.getElementById("clear-cart").addEventListener("click", () => {
-  cart.length = 0; // Kosongkan array keranjang
-  updateCart();    // Perbarui tampilan
+  cart.length = 0;
+  updateCart();
 })
+
+const toggleCartBtn = document.getElementById("toggle-cart");
+const cartPanel = document.getElementById("cart-panel");
+
+toggleCartBtn.addEventListener("click", () => {
+  if (cartPanel.classList.contains("active")) {
+    cartPanel.classList.remove("active");
+    setTimeout(() => cartPanel.classList.add("hidden"), 300);
+    toggleCartBtn.textContent = "🛒 Lihat Keranjang";
+  } else {
+    cartPanel.classList.remove("hidden");
+    setTimeout(() => cartPanel.classList.add("active"), 10);
+    toggleCartBtn.textContent = "❌ Tutup Keranjang";
+  }
+});
+
+// Format Rupiah
+function formatRp(n) { return 'Rp ' + n.toLocaleString(); }
+
+// Ganti/isi fungsi ini dipanggil dari tombol "Checkout" di cart
+function checkout() {
+  if (cart.length === 0) return;
+
+  const overlay = document.getElementById('confirm-overlay');
+  const itemsUl = document.getElementById('cf-items');
+
+  // Metode pembayaran
+  const paySelect = document.getElementById('payment');
+  document.getElementById('cf-payment').textContent =
+    paySelect ? paySelect.selectedOptions[0].textContent : '-';
+
+  // Daftar item + subtotal
+  itemsUl.innerHTML = '';
+  let subtotal = 0;
+  cart.forEach(it => {
+    const total = it.price * it.quantity;
+    subtotal += total;
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <div class="kv">
+        <span>${it.name} x${it.quantity}</span>
+        <span>Rp ${total.toLocaleString()}</span>
+      </div>
+    `;
+    itemsUl.appendChild(li);
+  });
+
+  // Hitung diskon dari promo
+  let discountAmount = 0;
+  if (appliedPromo.discount > 0) {
+    discountAmount = Math.floor(subtotal * appliedPromo.discount);
+  }
+
+  // Update tampilan ringkasan
+  document.getElementById('cf-subtotal').textContent = `Rp ${subtotal.toLocaleString()}`;
+  document.getElementById('cf-discount').textContent = `Rp ${discountAmount.toLocaleString()}`;
+  document.getElementById('cf-total').textContent = `Rp ${(subtotal - discountAmount).toLocaleString()}`;
+
+  // Tampilkan modal
+  overlay.classList.remove('hidden');
+}
+
+// Tutup modal & aksi lanjutkan
+document.getElementById('confirm-close').addEventListener('click', () => {
+  document.getElementById('confirm-overlay').classList.add('hidden');
+});
+document.getElementById('confirm-overlay').addEventListener('click', (e) => {
+  if (e.target.id === 'confirm-overlay') {
+    e.target.classList.add('hidden');
+  }
+});
+document.getElementById('confirm-order').addEventListener('click', () => {
+  // Tutup modal ringkasan
+  document.getElementById('confirm-overlay').classList.add('hidden');
+
+  // TODO: di sini taruh alur pembayaran kamu
+  // contoh simulasi:
+  console.log("Pesanan dikonfirmasi. Lanjut ke pembayaran.");
+});
+
+let appliedPromo = { code: null, discount: 0 };
+
+function applyPromo() {
+  const code = document.getElementById("promo-code").value.trim().toUpperCase();
+  const msg = document.getElementById("promo-message");
+
+  if (code === "DISKON10") {
+    appliedPromo = { code, discount: 0.1 };
+    msg.textContent = "Kode promo berhasil! Diskon 10% diterapkan.";
+    msg.style.color = "green";
+  } else if (code === "DISKON5") {
+    appliedPromo = { code, discount: 0.05 };
+    msg.textContent = "Kode promo berhasil! Diskon 5% diterapkan.";
+    msg.style.color = "green";
+  } else {
+    appliedPromo = { code: null, discount: 0 };
+    msg.textContent = "Kode promo tidak valid.";
+    msg.style.color = "red";
+  }
+  updateCart();
+}
