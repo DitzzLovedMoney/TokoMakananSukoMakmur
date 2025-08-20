@@ -1,10 +1,10 @@
 // ====== DATA PRODUK KELOMPOK ====== 
 const categories = { 
   "Nasi Goreng": [ 
-  { id: 1, name: "Nasi Goreng Sayur", price: 13000 },
-  { id: 2, name: "Nasi Goreng Telur", price: 15000 }, 
-  { id: 3, name: "Nasi Goreng Ayam", price: 16500 }, 
-  { id: 4, name: "Nasi Goreng Seafood", price: 20000 }, 
+  { id: 1, name: "Nasi Goreng Sayur", price: 13000, image: "src/Nasgor-Sayur.jpeg" },
+  { id: 2, name: "Nasi Goreng Telur", price: 15000, image: "src/Nasgor-Telur.jpeg" }, 
+  { id: 3, name: "Nasi Goreng Ayam", price: 16500, image: "src/Nasgor-Ayam.jpeg" }, 
+  { id: 4, name: "Nasi Goreng Seafood", price: 20000, image: "src/Nasgor-Seafood.jpeg" }, 
   ], 
   "Mie Ayam": [ 
   { id: 5, name: "Mie Ayam", price: 10000, image: "src/mie-ayam.jpeg" }, 
@@ -13,22 +13,22 @@ const categories = {
   { id: 8, name: "Mie Ayam Bakso Jumbo", price: 15000, image: "src/mie-ayam-bakso-jumbo.jpeg" }, 
   ], 
   "Bakso": [ 
-  { id: 9, name: "Bakso Biasa", price: 11000 }, 
-  { id: 10, name: "Bakso Jumbo", price: 13000 }, 
-  { id: 11, name: "Bakso Urat", price: 18000 }, 
-  { id: 12, name: "Bakso Telur", price: 16000 }, 
+  { id: 9, name: "Bakso Biasa", price: 11000, image: "src/Bakso-Biasa.jpeg" }, 
+  { id: 10, name: "Bakso Jumbo", price: 13000, image: "src/Bakso-Jumbo.jpeg" }, 
+  { id: 11, name: "Bakso Urat", price: 18000, image: "src/Bakso-Urat.jpeg" }, 
+  { id: 12, name: "Bakso Telur", price: 16000, image: "src/Bakso-Telur.jpeg" }, 
   ], 
   "Kwetiau & Bihun": [ 
-  { id: 13, name: "Kwetiau Goreng", price: 19000 }, 
-  { id: 14, name: "Kwetiau Kuah", price: 19000 }, 
-  { id: 15, name: "Bihun Goreng", price: 18000 }, 
-  { id: 16, name: "Bihun Kuah", price: 18000 }, 
+  { id: 13, name: "Kwetiau Goreng", price: 19000, image: "src/Kwetiau-Goreng.jpeg" }, 
+  { id: 14, name: "Kwetiau Kuah", price: 19000, image: "src/Kwetiau-Kuah.jpeg" }, 
+  { id: 15, name: "Bihun Goreng", price: 18000, image: "src/Bihun-Goreng.jpeg" }, 
+  { id: 16, name: "Bihun Kuah", price: 18000, image: "src/Bihun-Kuah.jpeg" }, 
   ], 
   "Ayam": [ 
-  { id: 17, name: "Ayam Geprek", price: 16500, isGeprek: true }, 
-  { id: 18, name: "Ayam Goreng", price: 10000 }, 
-  { id: 19, name: "Ayam Krispi", price: 13000 }, 
-  { id: 20, name: "Ayam Goreng Kremes", price: 15000 }, 
+  { id: 17, name: "Ayam Geprek", price: 16500, image: "src/Ayam-Geprek.jpeg", isGeprek: true }, 
+  { id: 18, name: "Ayam Goreng", price: 10000, image: "src/Ayam-Goreng.jpeg" }, 
+  { id: 19, name: "Ayam Krispi", price: 13000, image: "src/Ayam-Krispi.jpeg" }, 
+  { id: 20, name: "Ayam Goreng Kremes", price: 15000, image: "src/Ayam-Kremes.jpeg " }, 
   ],
   "Minuman": [
   { id: 23, name: "Teh Panas", price: 3500 },
