@@ -31,10 +31,10 @@ const categories = {
   { id: 20, name: "Ayam Goreng Kremes", price: 15000, image: "src/Ayam-Kremes.jpeg " }, 
   ],
   "Minuman": [
-  { id: 23, name: "Teh Panas", price: 3500 },
-  { id: 24, name: "Teh Dingin", price: 3500 },
-  { id: 25, name: "Jeruk Panas", price: 3500 },
-  { id: 26, name: "Jeruk Dingin", price: 3500 }
+  { id: 23, name: "Teh Panas", price: 3500, image: "src/Teh-Panas.jpeg" },
+  { id: 24, name: "Teh Dingin", price: 3500, image: "src/Es-Teh.jpeg" },
+  { id: 25, name: "Jeruk Panas", price: 3500, image: "src/Jeruk-Panas.jpeg" },
+  { id: 26, name: "Jeruk Dingin", price: 3500, image: "src/Es-Jeruk.jpeg" }
 ]
 };
 
