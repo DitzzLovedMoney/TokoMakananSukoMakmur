@@ -1,3 +1,13 @@
+// ====== Maintenance Mode ======
+const maintenanceMode = false; // ubah ke true kalau mau aktif
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (maintenanceMode) {
+    document.getElementById("maintenance").classList.remove("hidden");
+    document.getElementById("app").style.display = "none";
+  }
+});
+
 // ====== DATA PRODUK KELOMPOK ====== 
 const categories = { 
   "Nasi Goreng": [ 
@@ -263,13 +273,37 @@ document.getElementById('confirm-overlay').addEventListener('click', (e) => {
     e.target.classList.add('hidden');
   }
 });
+
 document.getElementById('confirm-order').addEventListener('click', () => {
-  // Tutup modal ringkasan
+  // Ambil total & daftar barang
+  const subtotal = document.getElementById('cf-subtotal').textContent;
+  const discount = document.getElementById('cf-discount').textContent;
+  const total = document.getElementById('cf-total').textContent;
+
+  const order = {
+    items: [...cart],  // simpan isi keranjang
+    subtotal,
+    discount,
+    total,
+    date: new Date().toLocaleString()
+  };
+
+  // Ambil history lama, kalau ada
+  let history = JSON.parse(localStorage.getItem("history")) || [];
+  history.push(order);
+
+  // Simpan lagi ke localStorage
+  localStorage.setItem("history", JSON.stringify(history));
+
+  // Kosongkan keranjang
+  cart.length = 0;
+  updateCart();
+
+  // Tutup modal
   document.getElementById('confirm-overlay').classList.add('hidden');
 
-  // TODO: di sini taruh alur pembayaran kamu
-  // contoh simulasi:
-  console.log("Pesanan dikonfirmasi. Lanjut ke pembayaran.");
+  // Pesan sukses
+  alert("Transaksi berhasil disimpan ke history!");
 });
 
 let appliedPromo = { code: null, discount: 0 };
@@ -286,6 +320,10 @@ function applyPromo() {
     appliedPromo = { code, discount: 0.05 };
     msg.textContent = "Kode promo berhasil! Diskon 5% diterapkan.";
     msg.style.color = "green";
+  } else if (code === "GRANDOPENING") {
+    appliedPromo = { code, discount: 1 };
+    msg.textContent = "Kode promo berhasil! Diskon 100% diterapkan.";
+    msg.style.color = "green";
   } else {
     appliedPromo = { code: null, discount: 0 };
     msg.textContent = "Kode promo tidak valid.";
@@ -293,3 +331,91 @@ function applyPromo() {
   }
   updateCart();
 }
+
+function loadHistory() {
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+  const listDiv = document.getElementById("history-list");
+
+  if (!history.length) {
+    listDiv.innerHTML = "<p>Belum ada transaksi.</p>";
+  } else {
+    listDiv.innerHTML = "";
+    history.forEach((h, idx) => {
+      const div = document.createElement("div");
+      div.classList.add("confirm-section");
+      div.innerHTML = `
+        <h3>Transaksi #${idx + 1} (${h.date})</h3>
+        <ul>
+          ${h.items.map(it => `<li>${it.name} x${it.quantity} - Rp ${(it.price*it.quantity).toLocaleString()}</li>`).join("")}
+        </ul>
+        <p>Subtotal: ${h.subtotal}</p>
+        <p>Diskon: ${h.discount}</p>
+        <p><b>Total: ${h.total}</b></p>
+      `;
+      listDiv.appendChild(div);
+    });
+  }
+}
+
+const scrollBtn = document.getElementById("scrollTopBtn");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 200) {
+    scrollBtn.classList.remove("hidden");
+  } else {
+    scrollBtn.classList.add("hidden");
+  }
+});
+
+scrollBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
+document.getElementById("view-history").addEventListener("click", () => {
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+  const listDiv = document.getElementById("history-list");
+  listDiv.innerHTML = "";
+
+  if (history.length === 0) {
+    listDiv.innerHTML = "<p>Belum ada transaksi.</p>";
+  } else {
+    history.forEach((h, i) => {
+      const div = document.createElement("div");
+      div.classList.add("confirm-section");
+      div.innerHTML = `
+        <h3>Transaksi #${i+1} (${h.date})</h3>
+        <ul>
+          ${h.items.map(it => `<li>${it.name} x${it.quantity} - Rp ${(it.price*it.quantity).toLocaleString()}</li>`).join("")}
+        </ul>
+        <p>Subtotal: ${h.subtotal}</p>
+        <p>Diskon: ${h.discount}</p>
+        <p><b>Total: ${h.total}</b></p>
+      `;
+      listDiv.appendChild(div);
+    });
+  }
+
+  document.getElementById("history-overlay").classList.remove("hidden");
+});
+
+// Tutup history
+document.getElementById("history-close").addEventListener("click", () => {
+  document.getElementById("history-overlay").classList.add("hidden");
+});
+
+// Dev mode (ubah ke false kalau publish)
+const isDev = false;
+if (isDev) {
+  document.getElementById("delete-history").classList.remove("hidden");
+}
+
+document.getElementById("delete-history").addEventListener("click", () => {
+  if (confirm("Yakin mau hapus semua history transaksi?")) {
+    localStorage.removeItem("history");
+    loadHistory(); // refresh tampilan langsung
+    alert("History berhasil dihapus!");
+  }
+});
