@@ -1,5 +1,5 @@
 // ====== Maintenance Mode ======
-const maintenanceMode = true; // ubah ke true kalau mau aktif
+const maintenanceMode = false; // ubah ke true kalau mau aktif
 
 window.addEventListener("DOMContentLoaded", () => {
   if (maintenanceMode) {
@@ -420,3 +420,4 @@ document.getElementById("delete-history").addEventListener("click", () => {
   }
 
 });
+
