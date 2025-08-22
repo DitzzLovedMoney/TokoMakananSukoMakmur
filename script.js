@@ -1,5 +1,5 @@
 // ====== Maintenance Mode + Dev Access ======
-const maintenanceMode = false;
+const maintenanceMode = true;
 
 // daftar kode akses yang diizinkan
 const devAccessCodes = ["betatest", "dev1", "admin1"];
@@ -446,4 +446,5 @@ document.getElementById("delete-history").addEventListener("click", () => {
     loadHistory(); // refresh tampilan langsung
     alert("History berhasil dihapus!");
   }
+
 });
