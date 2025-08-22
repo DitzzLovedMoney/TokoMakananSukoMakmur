@@ -446,5 +446,4 @@ document.getElementById("delete-history").addEventListener("click", () => {
     loadHistory(); // refresh tampilan langsung
     alert("History berhasil dihapus!");
   }
-
 });
