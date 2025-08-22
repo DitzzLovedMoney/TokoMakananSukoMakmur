@@ -1,5 +1,8 @@
-// ====== Maintenance Mode ======
-const maintenanceMode = false; // ubah ke true kalau mau aktif
+// ====== Maintenance Mode + Dev Access ======
+const maintenanceMode = false;
+
+// daftar kode akses yang diizinkan
+const devAccessCodes = ["betatest", "dev1", "admin1"];
 
 window.addEventListener("DOMContentLoaded", () => {
   if (maintenanceMode) {
@@ -8,6 +11,31 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// Toggle form developer (popup)
+document.getElementById("dev-toggle").addEventListener("click", () => {
+  document.getElementById("dev-form").classList.remove("hidden");
+});
+
+// Cek kode akses developer
+function checkDevCode() {
+  const input = document.getElementById("dev-code").value.trim();
+  const msg = document.getElementById("gate-message");
+
+  if (devAccessCodes.includes(input)) {   // cek apakah ada di daftar
+    document.getElementById("maintenance").classList.add("hidden");
+    document.getElementById("app").style.display = "block";
+    msg.textContent = "";
+  } else {
+    msg.textContent = "Kode akses salah!";
+  }
+}
+
+// Tutup popup kalau klik luar card
+document.getElementById("dev-form").addEventListener("click", (e) => {
+  if (e.target.id === "dev-form") {
+    e.target.classList.add("hidden");
+  }
+});
 // ====== DATA PRODUK KELOMPOK ====== 
 const categories = { 
   "Nasi Goreng": [ 
@@ -418,6 +446,4 @@ document.getElementById("delete-history").addEventListener("click", () => {
     loadHistory(); // refresh tampilan langsung
     alert("History berhasil dihapus!");
   }
-
 });
-
