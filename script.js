@@ -1,3 +1,17 @@
+// Dev mode (ubah ke false kalau publish)
+const isDev = true;
+if (isDev) {
+  document.getElementById("delete-history").classList.remove("hidden");
+}
+
+document.getElementById("delete-history").addEventListener("click", () => {
+  if (confirm("Yakin mau hapus semua history transaksi?")) {
+    localStorage.removeItem("history");
+    loadHistory(); // refresh tampilan langsung
+    alert("History berhasil dihapus!");
+  }
+});
+
 // ====== Maintenance Mode + Dev Access ======
 const maintenanceMode = true;
 
@@ -36,47 +50,48 @@ document.getElementById("dev-form").addEventListener("click", (e) => {
     e.target.classList.add("hidden");
   }
 });
-// ====== DATA PRODUK KELOMPOK ====== 
+
+// ====== DATA PRODUK ====== 
 const categories = { 
   "Nasi Goreng": [ 
-  { id: 1, name: "Nasi Goreng Sayur", price: 13000, image: "src/Nasgor-Sayur.jpeg" },
-  { id: 2, name: "Nasi Goreng Telur", price: 15000, image: "src/Nasgor-Telur.jpeg" }, 
-  { id: 3, name: "Nasi Goreng Ayam", price: 16500, image: "src/Nasgor-Ayam.jpeg" }, 
-  { id: 4, name: "Nasi Goreng Seafood", price: 20000, image: "src/Nasgor-Seafood.jpeg" }, 
+    { id: 1, name: "Nasi Goreng Sayur", price: 13000, image: "src/Nasgor-Sayur.jpeg" },
+    { id: 2, name: "Nasi Goreng Telur", price: 15000, image: "src/Nasgor-Telur.jpeg" }, 
+    { id: 3, name: "Nasi Goreng Ayam", price: 16500, image: "src/Nasgor-Ayam.jpeg" }, 
+    { id: 4, name: "Nasi Goreng Seafood", price: 20000, image: "src/Nasgor-Seafood.jpeg" }, 
   ], 
   "Mie Ayam": [ 
-  { id: 5, name: "Mie Ayam", price: 10000, image: "src/mie-ayam.jpeg" }, 
-  { id: 6, name: "Mie Ayam Ceker", price: 12000, image: "src/mie-ayam-ceker.jpeg" }, 
-  { id: 7, name: "Mie Ayam Bakso", price: 13000, image: "src/mie-ayam-bakso.jpeg" }, 
-  { id: 8, name: "Mie Ayam Bakso Jumbo", price: 15000, image: "src/mie-ayam-bakso-jumbo.jpeg" }, 
+    { id: 5, name: "Mie Ayam", price: 10000, image: "src/mie-ayam.jpeg" }, 
+    { id: 6, name: "Mie Ayam Ceker", price: 12000, image: "src/mie-ayam-ceker.jpeg" }, 
+    { id: 7, name: "Mie Ayam Bakso", price: 13000, image: "src/mie-ayam-bakso.jpeg" }, 
+    { id: 8, name: "Mie Ayam Bakso Jumbo", price: 15000, image: "src/mie-ayam-bakso-jumbo.jpeg" }, 
   ], 
   "Bakso": [ 
-  { id: 9, name: "Bakso Biasa", price: 11000, image: "src/Bakso-Biasa.jpeg" }, 
-  { id: 10, name: "Bakso Jumbo", price: 13000, image: "src/Bakso-Jumbo.jpeg" }, 
-  { id: 11, name: "Bakso Urat", price: 18000, image: "src/Bakso-Urat.jpeg" }, 
-  { id: 12, name: "Bakso Telur", price: 16000, image: "src/Bakso-Telur.jpeg" }, 
+    { id: 9, name: "Bakso Biasa", price: 11000, image: "src/Bakso-Biasa.jpeg" }, 
+    { id: 10, name: "Bakso Jumbo", price: 13000, image: "src/Bakso-Jumbo.jpeg" }, 
+    { id: 11, name: "Bakso Urat", price: 18000, image: "src/Bakso-Urat.jpeg" }, 
+    { id: 12, name: "Bakso Telur", price: 16000, image: "src/Bakso-Telur.jpeg" }, 
   ], 
   "Kwetiau & Bihun": [ 
-  { id: 13, name: "Kwetiau Goreng", price: 19000, image: "src/Kwetiau-Goreng.jpeg" }, 
-  { id: 14, name: "Kwetiau Kuah", price: 19000, image: "src/Kwetiau-Kuah.jpeg" }, 
-  { id: 15, name: "Bihun Goreng", price: 18000, image: "src/Bihun-Goreng.jpeg" }, 
-  { id: 16, name: "Bihun Kuah", price: 18000, image: "src/Bihun-Kuah.jpeg" }, 
+    { id: 13, name: "Kwetiau Goreng", price: 19000, image: "src/Kwetiau-Goreng.jpeg" }, 
+    { id: 14, name: "Kwetiau Kuah", price: 19000, image: "src/Kwetiau-Kuah.jpeg" }, 
+    { id: 15, name: "Bihun Goreng", price: 18000, image: "src/Bihun-Goreng.jpeg" }, 
+    { id: 16, name: "Bihun Kuah", price: 18000, image: "src/Bihun-Kuah.jpeg" }, 
   ], 
   "Ayam": [ 
-  { id: 17, name: "Ayam Geprek", price: 16500, image: "src/Ayam-Geprek.jpeg", isGeprek: true }, 
-  { id: 18, name: "Ayam Goreng", price: 10000, image: "src/Ayam-Goreng.jpeg" }, 
-  { id: 19, name: "Ayam Krispi", price: 13000, image: "src/Ayam-Krispi.jpeg" }, 
-  { id: 20, name: "Ayam Goreng Kremes", price: 15000, image: "src/Ayam-Kremes.jpeg " }, 
+    { id: 17, name: "Ayam Geprek", price: 16500, image: "src/Ayam-Geprek.jpeg", isGeprek: true }, 
+    { id: 18, name: "Ayam Goreng", price: 10000, image: "src/Ayam-Goreng.jpeg" }, 
+    { id: 19, name: "Ayam Krispi", price: 13000, image: "src/Ayam-Krispi.jpeg" }, 
+    { id: 20, name: "Ayam Goreng Kremes", price: 15000, image: "src/Ayam-Kremes.jpeg " }, 
   ],
   "Minuman": [
-  { id: 23, name: "Teh Panas", price: 3500, image: "src/Teh-Panas.jpeg" },
-  { id: 24, name: "Teh Dingin", price: 3500, image: "src/Es-Teh.jpeg" },
-  { id: 25, name: "Jeruk Panas", price: 3500, image: "src/Jeruk-Panas.jpeg" },
-  { id: 26, name: "Jeruk Dingin", price: 3500, image: "src/Es-Jeruk.jpeg" }
-]
+    { id: 23, name: "Teh Panas", price: 3500, image: "src/Teh-Panas.jpeg" },
+    { id: 24, name: "Teh Dingin", price: 3500, image: "src/Es-Teh.jpeg" },
+    { id: 25, name: "Jeruk Panas", price: 3500, image: "src/Jeruk-Panas.jpeg" },
+    { id: 26, name: "Jeruk Dingin", price: 3500, image: "src/Es-Jeruk.jpeg" }
+  ]
 };
 
-// ====== TAMPILKAN PRODUK PER KATEGORI ======
+// ====== TAMPILKAN PRODUK ======
 const productList = document.getElementById("product-list");
 for (const [category, items] of Object.entries(categories)) {
   const section = document.createElement("div");
@@ -92,28 +107,28 @@ for (const [category, items] of Object.entries(categories)) {
     card.className = "card";
 
     if (item.isGeprek) {
-  card.innerHTML = `
-    <img src="${item.image}" alt="${item.name}" class="product-image">
-    <h3>${item.name}</h3>
-    <label for="level-${item.id}">Level Pedas:</label>
-    <select id="level-${item.id}">
-      <option value="1">Level 1</option>
-      <option value="2">Level 2</option>
-      <option value="3">Level 3</option>
-      <option value="4">Level 4</option>
-      <option value="5">Level 5</option>
-    </select>
-    <p class="price">Rp ${item.price.toLocaleString()}</p>
-    <button class="btn" onclick="addGeprekToCart(${item.id})">Tambah ke Keranjang</button>
-  `;
-} else {
-  card.innerHTML = `
-    <img src="${item.image}" alt="${item.name}" class="product-image">
-    <h3>${item.name}</h3>
-    <p class="price">Rp ${item.price.toLocaleString()}</p>
-    <button class="btn" onclick="addToCart(${item.id})">Tambah ke Keranjang</button>
-  `;
-}
+      card.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" class="product-image">
+        <h3>${item.name}</h3>
+        <label for="level-${item.id}">Level Pedas:</label>
+        <select id="level-${item.id}">
+          <option value="1">Level 1</option>
+          <option value="2">Level 2</option>
+          <option value="3">Level 3</option>
+          <option value="4">Level 4</option>
+          <option value="5">Level 5</option>
+        </select>
+        <p class="price">Rp ${item.price.toLocaleString()}</p>
+        <button class="btn" onclick="addGeprekToCart(${item.id})">Tambah ke Keranjang</button>
+      `;
+    } else {
+      card.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" class="product-image">
+        <h3>${item.name}</h3>
+        <p class="price">Rp ${item.price.toLocaleString()}</p>
+        <button class="btn" onclick="addToCart(${item.id})">Tambah ke Keranjang</button>
+      `;
+    }
 
     grid.appendChild(card);
   });
@@ -122,7 +137,7 @@ for (const [category, items] of Object.entries(categories)) {
   productList.appendChild(section);
 }
 
-// ====== KERANJANG BELANJA ======
+// ====== KERANJANG ======
 const cart = [];
 const cartItems = document.getElementById("cart-items");
 const totalPriceElement = document.getElementById("total-price");
@@ -140,13 +155,12 @@ function addToCart(id) {
   } else {
     cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
   }
-
   updateCart();
 }
 
 function addGeprekToCart(id) {
   const level = document.getElementById(`level-${id}`).value;
-  const product = categories["Menu Ayam"].find(p => p.id === id);
+  const product = categories["Ayam"].find(p => p.id === id);
   const nameWithLevel = `${product.name} Level ${level}`;
 
   const existing = cart.find(p => p.name === nameWithLevel);
@@ -155,7 +169,6 @@ function addGeprekToCart(id) {
   } else {
     cart.push({ id: id, name: nameWithLevel, price: product.price, quantity: 1 });
   }
-
   updateCart();
 }
 
@@ -199,7 +212,6 @@ function updateQuantity(id, name, value) {
     if (qty > 0) {
       item.quantity = qty;
     } else {
-      // kalau 0, hapus item
       const index = cart.findIndex(p => p.id === id && p.name === name);
       cart.splice(index, 1);
     }
@@ -229,7 +241,7 @@ function decreaseQuantity(id, name) {
 document.getElementById("clear-cart").addEventListener("click", () => {
   cart.length = 0;
   updateCart();
-})
+});
 
 const toggleCartBtn = document.getElementById("toggle-cart");
 const cartPanel = document.getElementById("cart-panel");
@@ -246,22 +258,17 @@ toggleCartBtn.addEventListener("click", () => {
   }
 });
 
-// Format Rupiah
-function formatRp(n) { return 'Rp ' + n.toLocaleString(); }
-
-// Ganti/isi fungsi ini dipanggil dari tombol "Checkout" di cart
+// ====== CHECKOUT ======
 function checkout() {
   if (cart.length === 0) return;
 
   const overlay = document.getElementById('confirm-overlay');
   const itemsUl = document.getElementById('cf-items');
 
-  // Metode pembayaran
   const paySelect = document.getElementById('payment');
   document.getElementById('cf-payment').textContent =
     paySelect ? paySelect.selectedOptions[0].textContent : '-';
 
-  // Daftar item + subtotal
   itemsUl.innerHTML = '';
   let subtotal = 0;
   cart.forEach(it => {
@@ -277,22 +284,19 @@ function checkout() {
     itemsUl.appendChild(li);
   });
 
-  // Hitung diskon dari promo
   let discountAmount = 0;
   if (appliedPromo.discount > 0) {
     discountAmount = Math.floor(subtotal * appliedPromo.discount);
   }
 
-  // Update tampilan ringkasan
   document.getElementById('cf-subtotal').textContent = `Rp ${subtotal.toLocaleString()}`;
   document.getElementById('cf-discount').textContent = `Rp ${discountAmount.toLocaleString()}`;
   document.getElementById('cf-total').textContent = `Rp ${(subtotal - discountAmount).toLocaleString()}`;
 
-  // Tampilkan modal
   overlay.classList.remove('hidden');
 }
 
-// Tutup modal & aksi lanjutkan
+// Tutup modal
 document.getElementById('confirm-close').addEventListener('click', () => {
   document.getElementById('confirm-overlay').classList.add('hidden');
 });
@@ -302,38 +306,45 @@ document.getElementById('confirm-overlay').addEventListener('click', (e) => {
   }
 });
 
+// ====== KONFIRMASI ORDER (Redirect ke WhatsApp + Simpan History) ======
 document.getElementById('confirm-order').addEventListener('click', () => {
-  // Ambil total & daftar barang
   const subtotal = document.getElementById('cf-subtotal').textContent;
   const discount = document.getElementById('cf-discount').textContent;
   const total = document.getElementById('cf-total').textContent;
 
+  // Buat pesan WA
+  let message = "Halo, saya mau pesan:%0A";
+  cart.forEach(it => {
+    message += `- ${it.name} x${it.quantity} = Rp ${(it.price * it.quantity).toLocaleString()}%0A`;
+  });
+  message += `%0ASubtotal: ${subtotal}%0ADiskon: ${discount}%0ATotal: ${total}`;
+
+  // Nomor WA tujuan
+  const phone = "6285148348928"; // GANTI dengan nomor WA kamu
+
+  // Redirect ke WA
+  const waUrl = `https://wa.me/${phone}?text=${message}`;
+  window.open(waUrl, "_blank");
+
+  // Simpan ke history
   const order = {
-    items: [...cart],  // simpan isi keranjang
+    items: [...cart],
     subtotal,
     discount,
     total,
     date: new Date().toLocaleString()
   };
-
-  // Ambil history lama, kalau ada
   let history = JSON.parse(localStorage.getItem("history")) || [];
   history.push(order);
-
-  // Simpan lagi ke localStorage
   localStorage.setItem("history", JSON.stringify(history));
 
-  // Kosongkan keranjang
+  // Reset keranjang
   cart.length = 0;
   updateCart();
-
-  // Tutup modal
   document.getElementById('confirm-overlay').classList.add('hidden');
-
-  // Pesan sukses
-  alert("Transaksi berhasil disimpan ke history!");
 });
 
+// ====== PROMO ======
 let appliedPromo = { code: null, discount: 0 };
 
 function applyPromo() {
@@ -360,6 +371,7 @@ function applyPromo() {
   updateCart();
 }
 
+// ====== HISTORY ======
 function loadHistory() {
   const history = JSON.parse(localStorage.getItem("history")) || [];
   const listDiv = document.getElementById("history-list");
@@ -385,23 +397,6 @@ function loadHistory() {
   }
 }
 
-const scrollBtn = document.getElementById("scrollTopBtn");
-
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 200) {
-    scrollBtn.classList.remove("hidden");
-  } else {
-    scrollBtn.classList.add("hidden");
-  }
-});
-
-scrollBtn.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-});
-
 document.getElementById("view-history").addEventListener("click", () => {
   const history = JSON.parse(localStorage.getItem("history")) || [];
   const listDiv = document.getElementById("history-list");
@@ -410,7 +405,7 @@ document.getElementById("view-history").addEventListener("click", () => {
   if (history.length === 0) {
     listDiv.innerHTML = "<p>Belum ada transaksi.</p>";
   } else {
-    history.forEach((h, i) => {
+        history.forEach((h, i) => {
       const div = document.createElement("div");
       div.classList.add("confirm-section");
       div.innerHTML = `
@@ -423,27 +418,11 @@ document.getElementById("view-history").addEventListener("click", () => {
         <p><b>Total: ${h.total}</b></p>
       `;
       listDiv.appendChild(div);
-    });
-  }
+    });  // ✅ ini nutup forEach
+  }       // ✅ ini nutup else
 
   document.getElementById("history-overlay").classList.remove("hidden");
-});
-
-// Tutup history
-document.getElementById("history-close").addEventListener("click", () => {
+});       // ✅ ini nutup addEventListener
+  document.getElementById("history-close").addEventListener("click", () => {
   document.getElementById("history-overlay").classList.add("hidden");
-});
-
-// Dev mode (ubah ke false kalau publish)
-const isDev = false;
-if (isDev) {
-  document.getElementById("delete-history").classList.remove("hidden");
-}
-
-document.getElementById("delete-history").addEventListener("click", () => {
-  if (confirm("Yakin mau hapus semua history transaksi?")) {
-    localStorage.removeItem("history");
-    loadHistory(); // refresh tampilan langsung
-    alert("History berhasil dihapus!");
-  }
 });
