@@ -269,6 +269,10 @@ function checkout() {
   document.getElementById('cf-payment').textContent =
     paySelect ? paySelect.selectedOptions[0].textContent : '-';
 
+  const recipientName = document.getElementById("recipient-name").value || "-";
+  document.getElementById("cf-recipient").textContent = recipientName;
+
+  // Daftar item + subtotal
   itemsUl.innerHTML = '';
   let subtotal = 0;
   cart.forEach(it => {
@@ -289,6 +293,7 @@ function checkout() {
     discountAmount = Math.floor(subtotal * appliedPromo.discount);
   }
 
+   // Update ringkasan harga
   document.getElementById('cf-subtotal').textContent = `Rp ${subtotal.toLocaleString()}`;
   document.getElementById('cf-discount').textContent = `Rp ${discountAmount.toLocaleString()}`;
   document.getElementById('cf-total').textContent = `Rp ${(subtotal - discountAmount).toLocaleString()}`;
@@ -312,12 +317,21 @@ document.getElementById('confirm-order').addEventListener('click', () => {
   const discount = document.getElementById('cf-discount').textContent;
   const total = document.getElementById('cf-total').textContent;
 
-  // Buat pesan WA
-  let message = "Halo, saya mau pesan:%0A";
-  cart.forEach(it => {
-    message += `- ${it.name} x${it.quantity} = Rp ${(it.price * it.quantity).toLocaleString()}%0A`;
-  });
-  message += `%0ASubtotal: ${subtotal}%0ADiskon: ${discount}%0ATotal: ${total}`;
+// Ambil nama penerima
+const recipientName = document.getElementById("recipient-name").value || "-";
+
+// Metode pembayaran
+const paySelect = document.getElementById("payment");
+const paymentMethod = paySelect ? paySelect.selectedOptions[0].textContent : "-";
+
+// Buat pesan WA
+let message = "Halo, saya mau pesan:%0A";
+cart.forEach(it => {
+  message += `- ${it.name} x${it.quantity} = Rp ${(it.price * it.quantity).toLocaleString()}%0A`;
+});
+message += `%0ASubtotal: ${subtotal}%0ADiskon: ${discount}%0ATotal: ${total}%0A`;
+message += `%0AMetode Pembayaran: ${paymentMethod}`;
+message += `%0AAtas Nama: ${recipientName}`;
 
   // Nomor WA tujuan
   const phone = "6285148348928"; // GANTI dengan nomor WA kamu
@@ -332,6 +346,8 @@ document.getElementById('confirm-order').addEventListener('click', () => {
     subtotal,
     discount,
     total,
+    payment: paymentMethod,
+    recipient: recipientName,
     date: new Date().toLocaleString()
   };
   let history = JSON.parse(localStorage.getItem("history")) || [];
