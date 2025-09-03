@@ -315,6 +315,13 @@ h1 {
   font-weight: 500;
 }
 
+#recipient-name {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
 .promo-box {
   margin: 10px 0;
 }
