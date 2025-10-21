@@ -516,3 +516,20 @@ h1 {
 #access-gate button:hover {
   background: #ff5722;
 }
+
+/* Modal konfirmasi hapus history */
+#delete-confirm-overlay .modal-card {
+  max-width: 380px;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+#delete-confirm-card h2 {
+  margin-bottom: 8px;
+  color: #333;
+}
+
+#delete-confirm-card p {
+  margin: 0;
+  color: #555;
+}

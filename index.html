@@ -57,9 +57,8 @@
           </div>
           <p id="promo-message" style="color:green;font-size:0.9rem;"></p>
         </div>
-
+        <p id="recipient-warning" style="color: red; font-size: 0.9rem; margin-top: 6px;"></p>
         <p id="total-price">Total: Rp 0</p>
-        
         <!-- Pilihan pembayaran -->
         <label for="payment">Metode Pembayaran:</label>
         <select id="payment">
@@ -123,7 +122,16 @@
   <audio id="bg-music" autoplay loop>
     <source src="src/music.mp3" type="audio/mpeg">
   </audio>
-  
+  <div id="delete-confirm-overlay" class="modal hidden">
+  <div class="modal-card" id="delete-confirm-card">
+    <h2 id="delete-confirm-title">Hapus Semua History?</h2>
+    <p id="delete-confirm-text">Anda yakin ingin menghapus semua riwayat transaksi?</p>
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+      <button id="delete-yes" class="btn" style="background: #ff5722;">Ya</button>
+      <button id="delete-no" class="btn" style="background: #777;">Tidak</button>
+    </div>
+  </div>
+</div>
   <!-- Script utama -->
   <script src="script.js"></script>
 </body>

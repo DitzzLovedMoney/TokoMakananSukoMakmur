@@ -5,10 +5,46 @@ if (isDev) {
 }
 
 document.getElementById("delete-history").addEventListener("click", () => {
-  if (confirm("Yakin mau hapus semua history transaksi?")) {
+  const overlay = document.getElementById("delete-confirm-overlay");
+  const title = document.getElementById("delete-confirm-title");
+  const text = document.getElementById("delete-confirm-text");
+  const yesBtn = document.getElementById("delete-yes");
+  const noBtn = document.getElementById("delete-no");
+
+  // Reset tampilan
+  title.textContent = "Hapus Semua History?";
+  text.textContent = "Anda yakin ingin menghapus semua riwayat transaksi?";
+  yesBtn.style.display = "inline-block";
+  noBtn.style.display = "inline-block";
+
+  overlay.classList.remove("hidden");
+
+  noBtn.onclick = () => {
+    overlay.classList.add("hidden");
+  };
+
+  yesBtn.onclick = () => {
+    // hapus data
     localStorage.removeItem("history");
-    loadHistory(); // refresh tampilan langsung
-    alert("History berhasil dihapus!");
+    loadHistory();
+
+    // ubah isi modal jadi pesan berhasil
+    title.textContent = "✅ History Dihapus!";
+    text.textContent = "Semua riwayat transaksi telah berhasil dihapus.";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+
+    // tutup otomatis 2 detik kemudian
+    setTimeout(() => {
+      overlay.classList.add("hidden");
+    }, 1500);
+  };
+});
+
+// Tutup modal kalau klik luar kotak
+document.getElementById("delete-confirm-overlay").addEventListener("click", (e) => {
+  if (e.target.id === "delete-confirm-overlay") {
+    e.target.classList.add("hidden");
   }
 });
 
@@ -260,8 +296,29 @@ toggleCartBtn.addEventListener("click", () => {
 
 // ====== CHECKOUT ======
 function checkout() {
-  if (cart.length === 0) return;
+  const warning = document.getElementById("recipient-warning");
+  warning.textContent = ""; // reset pesan
 
+  if (cart.length === 0) {
+    warning.textContent = "Keranjang masih kosong!";
+    return;
+  }
+
+  const recipientName = document.getElementById("recipient-name").value.trim();
+  if (!recipientName) {
+    warning.textContent = "⚠️ Harap isi nama penerima sebelum checkout!";
+    // Tambahkan efek getar biar kelihatan
+    const input = document.getElementById("recipient-name");
+    input.style.borderColor = "red";
+    input.classList.add("shake");
+    setTimeout(() => {
+      input.classList.remove("shake");
+      input.style.borderColor = "#ccc";
+    }, 600);
+    return;
+  }
+
+  // Lanjut ke proses normal
   const overlay = document.getElementById('confirm-overlay');
   const itemsUl = document.getElementById('cf-items');
 
@@ -269,10 +326,9 @@ function checkout() {
   document.getElementById('cf-payment').textContent =
     paySelect ? paySelect.selectedOptions[0].textContent : '-';
 
-  const recipientName = document.getElementById("recipient-name").value || "-";
   document.getElementById("cf-recipient").textContent = recipientName;
 
-  // Daftar item + subtotal
+  // ====== Lanjut ke ringkasan ======
   itemsUl.innerHTML = '';
   let subtotal = 0;
   cart.forEach(it => {
@@ -293,7 +349,6 @@ function checkout() {
     discountAmount = Math.floor(subtotal * appliedPromo.discount);
   }
 
-   // Update ringkasan harga
   document.getElementById('cf-subtotal').textContent = `Rp ${subtotal.toLocaleString()}`;
   document.getElementById('cf-discount').textContent = `Rp ${discountAmount.toLocaleString()}`;
   document.getElementById('cf-total').textContent = `Rp ${(subtotal - discountAmount).toLocaleString()}`;
@@ -362,28 +417,49 @@ message += `%0AAtas Nama: ${recipientName}`;
 
 // ====== PROMO ======
 let appliedPromo = { code: null, discount: 0 };
+let usedPromos = JSON.parse(localStorage.getItem("usedPromos")) || [];
 
 function applyPromo() {
   const code = document.getElementById("promo-code").value.trim().toUpperCase();
   const msg = document.getElementById("promo-message");
 
-  if (code === "DISKON10") {
-    appliedPromo = { code, discount: 0.1 };
-    msg.textContent = "Kode promo berhasil! Diskon 10% diterapkan.";
+  // Jika kosong
+  if (!code) {
+    msg.textContent = "Masukkan kode promo terlebih dahulu.";
+    msg.style.color = "red";
+    return;
+  }
+
+  // Cek apakah sudah pernah dipakai
+  if (usedPromos.includes(code)) {
+    msg.textContent = "Kode promo ini sudah pernah digunakan!";
+    msg.style.color = "red";
+    return;
+  }
+
+  // Daftar kode promo valid
+  const promos = {
+    "DISKON10": 0.10,
+    "DISKON5": 0.05,
+    "GRANDOPENING": 1.00,
+    "HEMAT": 0.15
+  };
+
+  if (promos.hasOwnProperty(code)) {
+    appliedPromo = { code, discount: promos[code] };
+    msg.textContent = `Kode promo berhasil! Diskon ${(promos[code] * 100)}% diterapkan.`;
     msg.style.color = "green";
-  } else if (code === "DISKON5") {
-    appliedPromo = { code, discount: 0.05 };
-    msg.textContent = "Kode promo berhasil! Diskon 5% diterapkan.";
-    msg.style.color = "green";
-  } else if (code === "GRANDOPENING") {
-    appliedPromo = { code, discount: 1 };
-    msg.textContent = "Kode promo berhasil! Diskon 100% diterapkan.";
-    msg.style.color = "green";
+
+    // Simpan promo yang sudah dipakai
+    usedPromos.push(code);
+    localStorage.setItem("usedPromos", JSON.stringify(usedPromos));
+
   } else {
     appliedPromo = { code: null, discount: 0 };
     msg.textContent = "Kode promo tidak valid.";
     msg.style.color = "red";
   }
+
   updateCart();
 }
 
