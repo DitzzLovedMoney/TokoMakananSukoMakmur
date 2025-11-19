@@ -1,5 +1,5 @@
 // Dev mode (ubah ke false kalau publish)
-const isDev = false;
+const isDev = true;
 if (isDev) {
   document.getElementById("delete-history").classList.remove("hidden");
 }
@@ -49,7 +49,7 @@ document.getElementById("delete-confirm-overlay").addEventListener("click", (e) 
 });
 
 // ====== Maintenance Mode + Dev Access ======
-const maintenanceMode = true;
+const maintenanceMode = false;
 
 // daftar kode akses yang diizinkan
 const devAccessCodes = ["betatest", "dev1", "admin1"];
@@ -519,3 +519,4 @@ document.getElementById("view-history").addEventListener("click", () => {
   document.getElementById("history-overlay").classList.add("hidden");
 
 });
+
