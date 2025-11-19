@@ -1,5 +1,5 @@
 // Dev mode (ubah ke false kalau publish)
-const isDev = true;
+const isDev = false;
 if (isDev) {
   document.getElementById("delete-history").classList.remove("hidden");
 }
@@ -517,4 +517,5 @@ document.getElementById("view-history").addEventListener("click", () => {
 });       // ✅ ini nutup addEventListener
   document.getElementById("history-close").addEventListener("click", () => {
   document.getElementById("history-overlay").classList.add("hidden");
+
 });
